@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset=UTF-8>
+<meta name="viewPort" content="width=device-width, initial-scale=1.0">
+<link href="/css/style.css" rel="stylesheet">
+<title>Ingresar</title>
+
+</head>
+<body>
+	<div class="container">
+		
+		<form th:action="@{/validate}" method="POST">
+			<h1 style="color: #009879;">Acceso al sistema</h1>
+			<div th:if="${warning != null}">
+				<label style="color:red;margin-left: 165px;" th:text="${warning}"></label>
+			</div>
+			<div class="form-group">
+				<label for="" style="color: #009879;">Usuario</label> <input type="text"
+					class="form-control" name="correo" required>
+			</div>
+			<div class="form-group">
+				<label for="" style="color: #009879;">Contraseña</label> <input type="password"
+					class="form-control" name="password" required>
+			</div>
+
+			<input type="submit" class="btn" value="Ingresar">
+
+		</form>
+	</div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset=UTF-8>
+<meta name="viewPort" content="width=device-width, initial-scale=1.0">
+<link href="/css/style.css" rel="stylesheet">
+<title>Nuevo Bus</title>
+
+</head>
+<body>
+	<div class="container">
+
+		<form th:action="@{/guardar}" method="POST" th:object="${bus}">
+			<h1 th:text="${titulo}" style="color: #009879;"></h1>
+			<div>
+				<label class="form-label" hidden="true">ID</label> 
+				<input class="form-control" type="hidden" th:field="*{id_bus}">
+			</div>
+			<div class="form-group">
+				<label class="form-label" for="id_fabricante">FABRICANTE</label> 
+				<select class="form-control" th:field="*{fabricante}">
+					<option th:each="fabricante:${fabricantes}"
+						th:value="${fabricante.id_fabricante}"
+						th:text="${fabricante.nombre}" />
+				</select>
+			</div>
+			<div class="form-group">
+				<label class="form-label" >PLACA</label> 
+				<input class="form-control" type="text" th:field="*{placa}" required>
+			</div>
+			<div class="form-group">
+				<label class="form-label">CAP. ESTANDAR</label> 
+				<input class="form-control" type="text" th:field="*{cap_estandar}" required>
+			</div>
+			<div>
+				<label class="form-label">CAP. PREMIUM</label> 
+				<input class="form-control" type="text" th:field="*{cap_premiun}" required>
+			</div>
+			<div>
+				<input type="submit" class="btn-add" style="margin-left: 35%"  value="Guardar">
+				<a th:href="@{/regresar}" th:text="'Regresar'" title="Crear nuevo bus"> </a>
+			</div>
+
+		</form>
+	</div>
+</body>
+</html>

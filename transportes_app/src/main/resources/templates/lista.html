@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset=UTF-8>
+<meta name="viewPort" content="width=device-width, initial-scale=1.0">
+<link href="/css/style.css" rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+	crossorigin="anonymous">
+
+
+<title>Lista</title>
+
+</head>
+<body>
+
+	<section class="container-fluid">
+		<div class="row">
+
+			<div class="d-flex justify-content-center pt-4">
+				<h1 th:text="${titulo}" style="color: #009879;"></h1>
+
+			</div>
+			
+			<form th:action="@{/lista}">
+			<div class="d-flex justify-content-center pt-4">
+		    	<label style="padding: inherit;" for="inputPassword2" class="sr-only">Filtro</label>
+		    	<input style="height: 40px;width: 300px;margin: 15px;" type="text" name="filtro" placeholder="Placa/Fabricante" class="form-control" >
+		    	<button style="height: 40px;margin: 15px;" type="submit" class="btn btn-primary mb-2">Buscar</button>    	
+		    	<a  style="height: 40px;margin: 15px;" class="btn btn-success" th:href="@{/agregar}" th:text="'Agregar'"
+					title="Crear nuevo bus"> </a>
+		    </div>
+			
+			</form>
+		    
+			<div class="d-flex justify-content-center">
+
+				<form method="get">
+
+					<table class="content-table">
+						<thead>
+							<tr>
+								<th>
+									<a style="color: #fff" th:href="@{'/pagina/' +  ${currentPage} + '?sortField=fabricante.nombre&sortDir=' + ${reverseSortDir}}">
+									FABRICANTE
+									</a>
+								</th>
+								<th>
+									<a style="color: #fff" th:href="@{'/pagina/' +  ${currentPage} + '?sortField=placa&sortDir=' + ${reverseSortDir}}">
+									PLACA
+									</a>
+								</th>
+								<th>
+									CAPACIDAD ESTANDAR
+								</th>
+								<th>
+									CAPACIDAD PREMIUM
+								</th>
+								<th style="text-align: center;">ACCION</th>
+							</tr>
+
+						</thead>
+
+						<tbody>
+							<tr th:each="bus:${buses}">
+								<td th:text="${bus.id_bus}" hidden=""></td>
+								<td th:text="${bus.fabricante.nombre}"></td>
+								<td th:text="${bus.placa}"></td>
+								<td th:text="${bus.cap_estandar}"></td>
+								<td th:text="${bus.cap_premiun}"></td>
+								<td><a class="btn btn-info" th:href="@{/editar/} + ${bus.id_bus}"
+									th:text="'Editar'" title="Editar bus"> </a>
+									<button id="elim"
+										th:onclick="|btnEliminar(event, '${bus.id_bus}')|"
+										class="btn btn-danger" th:text="'Eliminar'" title="Eliminar bus">
+									</button> <!-- 
+							th:href="@{/eliminar/} + ${bus.id_bus}"
+							 --></td>
+							</tr>
+						</tbody>
+
+					</table>
+					<div th:if = "${totalPages > 1}">
+						<div class="row col-sm-10">
+							<div class="col-sm-2">
+								Total: [[${totalItems}]]
+							</div>
+							<div class="col-sm-2">
+								<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+									<a th:if="${currentPage != i}" th:href="@{'/pagina/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+									<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+								</span>
+							</div>
+							<div class="col-sm-1">
+								<a th:if="${currentPage < totalPages}" th:href="@{'/pagina/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Sig.</a>
+									<span th:unless="${currentPage < totalPages}">Sig.</span>
+							</div>
+							
+							<div class="col-sm-1">
+								<a th:if="${currentPage < totalPages}" th:href="@{'/pagina/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Ult.</a>
+									<span th:unless="${currentPage < totalPages}">Ult.</span>
+							</div>
+						</div>
+					</div>
+				</form>
+
+			</div>
+
+		</div>
+
+	</section>
+
+	<script src="/js/lista.js"></script>
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+</body>
+</html>
